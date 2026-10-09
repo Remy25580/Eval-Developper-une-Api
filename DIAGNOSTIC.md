@@ -94,10 +94,10 @@ Une section par test en échec : renseignez ses quatre champs.
 
 ## testRemovingALineFromSomeoneElsesOrderIsForbidden
 
-**Symptôme** :
+**Symptôme** : Un code 200 est renvoyé alors qu'un 401 devrait être renvoyé (non autorisé)
 
-**Cause** :
+**Cause** : Lors de la définition de l'endpoint dans l'entité kitchen, il n'était pas spécifié que ce dernier nécessitait d'être connecté
 
-**Règle du module en jeu** :
+**Règle du module en jeu** : La sécurisation des endpoints
 
-**Correctif** :
+**Correctif** : Dans le ```GetCollection()``` de KitchenTicket.php, on rajoute la ligne ```security: "is_granted('ROLE_USER')",```
