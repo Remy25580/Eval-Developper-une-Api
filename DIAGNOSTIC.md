@@ -65,13 +65,13 @@ Une section par test en échec : renseignez ses quatre champs.
 
 ## testOpeningAnOrderIgnoresAnAbandonedOne
 
-**Symptôme** :
+**Symptôme** : Si l'on a une commande dite abandonnée, donc qui doit être supprimée, et qu'on en ouvre une nouvelle, l'abandonnée est renvoyée au lieu d'en ouvrir une nouvelle
 
-**Cause** :
+**Cause** : Dans OrderRepository.php, lors de la recherche d'une commande encore active pour un utilisateur, on ne vérifie pas si la commande doit être supprimée, ce qui fait qu'une commande abandonnée est renvoyée au lieu d'en créer une nouvelle
 
-**Règle du module en jeu** :
+**Règle du module en jeu** : Vérification de profondeur
 
-**Correctif** :
+**Correctif** : Dans la méthode ```findActiveFor(User $user)``` de OrderRepository.php, dans le createQueryBuilder, il faut rajouter la ligne vérifiant que la commande n'ait pas été supprimée, c'est à dire la ligne ```->andWhere('o.deletedAt IS NULL')```
 
 ## testPayingMyOrderMarksItPaid
 

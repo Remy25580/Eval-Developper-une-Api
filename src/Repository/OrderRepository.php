@@ -29,6 +29,7 @@ class OrderRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('o')
             ->andWhere('o.status = :status')
             ->andWhere('o.createdBy = :user')
+            ->andWhere('o.deletedAt IS NULL')
             ->setParameter('status', OrderStatus::Pending)
             ->setParameter('user', $user)
             ->getQuery()

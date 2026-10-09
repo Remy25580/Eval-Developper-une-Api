@@ -22,6 +22,7 @@ use App\State\Order\OrderRemoveLineProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Object_;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Uid\Uuid;
@@ -67,7 +68,7 @@ use Symfony\Component\Uid\Uuid;
         output: OrderPayOutput::class,
         provider: OrderProvider::class,
         processor: OrderPayProcessor::class,
-        security: "object.getCreatedBy() == user",
+        security: "object and object.getCreatedBy() == user",
         // le contrat déclare 200 : on ne crée pas de ressource adressable, on règle une commande
         status: 200,
     ),
