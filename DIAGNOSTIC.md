@@ -53,7 +53,7 @@ if (OrderStatus::Paid === $order->getStatus()) {
 
 **Cause** : Lors de la récupération des bons, il n'est pas spécifié dans aucun ```WHERE``` que l'on souhaite juste récupérer les bons de l'utilisateur connecté
 
-**Règle du module en jeu** :
+**Règle du module en jeu** : Validations de profondeur
 
 **Correctif** : Dans KitchenTicketRepository.php, dans ```findFor(User $user)```, on rajoute cette ligne au ```createQueryBuilder```: ```->where('k.createdBy = :user')``` afin de ne récupérer que les bons de l'utilisateur connecté
 
@@ -74,7 +74,7 @@ if (OrderStatus::Paid === $order->getStatus()) {
 
 **Cause** : Dans OrderRepository.php, lors de la recherche d'une commande encore active pour un utilisateur, on ne vérifie pas si la commande doit être supprimée, ce qui fait qu'une commande abandonnée est renvoyée au lieu d'en créer une nouvelle
 
-**Règle du module en jeu** : Vérification de profondeur
+**Règle du module en jeu** : Validations de profondeur
 
 **Correctif** : Dans la méthode ```findActiveFor(User $user)``` de OrderRepository.php, dans le createQueryBuilder, il faut rajouter la ligne vérifiant que la commande n'ait pas été supprimée, c'est à dire la ligne ```->andWhere('o.deletedAt IS NULL')```
 
