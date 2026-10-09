@@ -28,10 +28,12 @@ class KitchenTicketRepository extends ServiceEntityRepository
     public function findFor(User $user): array
     {
         return $this->createQueryBuilder('k')
+            ->where('k.createdBy = :user')
             // les bons d'un même paiement partagent leur date d'émission : l'identifiant v7,
             // ordonné dans le temps, les départage de façon stable
             ->orderBy('k.createdAt', 'DESC')
             ->addOrderBy('k.id', 'DESC')
+            ->setParameter('user', $user)
             ->getQuery()
             ->getResult();
     }
