@@ -34,13 +34,13 @@ Une section par test en échec : renseignez ses quatre champs.
 
 ## testAddingALineWithAZeroQuantityIsUnprocessable
 
-**Symptôme** :
+**Symptôme** : Si on ajoute une ligne à notre commande en mettant comme quantité 0, la requête renvoie un 200 alors qu'elle est sensée renvoyer un 422
 
-**Cause** :
+**Cause** : Dans la Dto OrderAddLineInput.php, une des conditions de l'attribut ```$quantity``` était ```#[Assert\PositiveOrNull]```, ce qui implique qu'ajouter une ligne avec une quantité nulle est autorisé par l'Api
 
-**Règle du module en jeu** :
+**Règle du module en jeu** : Validations de surface dans les Dto d'entrée
 
-**Correctif** :
+**Correctif** : Dans OrderAddLineInput.php, on remplace l'assert ```#[Assert\PositiveOrNull]``` par ```#[Assert\Positive]```, ce qui renvoie comme prévu un code 422 lorsque l'on ajoute une ligne avec une quantité nulle
 
 ## testListingKitchenTicketsReturnsMine
 
