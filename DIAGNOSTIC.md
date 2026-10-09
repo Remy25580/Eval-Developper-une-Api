@@ -95,10 +95,10 @@ Une section par test en échec : renseignez ses quatre champs.
 
 ## testRemovingALineFromSomeoneElsesOrderIsForbidden
 
-**Symptôme** : 
+**Symptôme** : Il est possible en étant connecté, de supprimer une ligne dans la commande de quelqu'un d'autre, alors que cette opération est sensée remonter une erreur 403 forbidden
 
-**Cause** : 
+**Cause** : Dans la définition de l'endpoint DELETE pour la route ```/orders/{id}/lines/{lineId}```, la ligne sécurité (```"is_granted('ROLE_USER') or object.getCreatedBy() == user"```) définit qu'il faut être connecté OU être le propriétaire de la commande pour en supprimer une ligne
 
-**Règle du module en jeu** : 
+**Règle du module en jeu** : Sécurisation des endpoints
 
-**Correctif** : 
+**Correctif** : Il faut remplacer dans la dite ligne le 'or' par un 'and', afin que la condition pour supprimer une ligne d'une commande soit d'être connecté mais aussi d'être le propiétaire de la commande. La ligne devient donc ```"is_granted('ROLE_USER') and object.getCreatedBy() == user"```
