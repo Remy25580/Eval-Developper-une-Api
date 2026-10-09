@@ -14,13 +14,18 @@ Une section par test en échec : renseignez ses quatre champs.
 
 ## testAddingALineToAPaidOrderIsAConflict
 
-**Symptôme** :
+**Symptôme** : Lorsque l'on ajoute une ligne à une commande déjà payée, au lieu de lever un code d'erreur 409, on obtient un code 200 montrant que l'ajout de la ligne a fonctionné alors que ce n'est pas sensé se produire
 
-**Cause** :
+**Cause** : Dans la méthode ```addLine(Order $order, OrderAddLineInput $input)``` de OrderService.php, on ne vérifie en fait jamais si la commande en question a déjà étée règlée ou pas, ce qui ne lève donc pas de code 409 dans le cas ou celle-ci l'est
 
-**Règle du module en jeu** :
+**Règle du module en jeu** : Gestion des exceptions
 
-**Correctif** :
+**Correctif** : Au début de la méthode ```addLine(Order $order, OrderAddLineInput $input)```, il faut rajouter la vérification suivante:
+```php
+if (OrderStatus::Paid === $order->getStatus()) {
+     throw new OrderAlreadyPaidException();
+}
+```
 
 ## testAddingALineToMyOrder
 
